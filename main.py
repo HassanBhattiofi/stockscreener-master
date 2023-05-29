@@ -26,6 +26,7 @@ def get_db():
 
 
 @app.get("/")
+@app.get("/")
 def home(request: Request, forward_pe=None, dividend_yield=None, ma50=None, ma200=None, db: Session = Depends(get_db)):
     stocks = db.query(Stock)
 
@@ -42,6 +43,9 @@ def home(request: Request, forward_pe=None, dividend_yield=None, ma50=None, ma20
         stocks = stocks.filter(Stock.price > Stock.ma200)
 
     stocks = stocks.all()
+
+    for stock in stocks:
+        print(stock.price)  # Add this line to check the price value
 
     return templates.TemplateResponse("home.html", {
         "request": request,
